@@ -1,8 +1,3 @@
-const person = {
-    name: 'Rick',
-    age: 77,
-    Country: 'US',
-};
 //shallow copy using spread operator
 const clone1 = Object.freeze({...person});
 const clone2 = Object.freeze({...person});
