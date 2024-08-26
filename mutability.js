@@ -5,6 +5,6 @@ const clone2 = Object.freeze({...person});
 const samePerson = person;
 
 person.age += 1;
-person.Country = 'FR'; 
+person.country = 'FR'; 
 
 //console.log('clone1:', clone1);
