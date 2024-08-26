@@ -1,9 +1,9 @@
-// const sourceObject = {
-//     num: 42,
-//     bool: true,
-//     str: 'some text',
-//     log: console.log,
-//   }
+ const sourceObject = {
+     num: 42,
+     bool: true,
+     str: 'some text',
+     log: console.log,
+   }
   
   function get(key) {
     return sourceObject[key];
@@ -13,5 +13,5 @@
     sourceObject[key] = value;
     return  value;
   }
-//   console.log(get('num'))
-//   console.log(set('num', 30))
+   console.log(get('num'))
+   console.log(set('num', 30))
