@@ -7,7 +7,7 @@ function sentence(arr) {
 }
 
 function yell(str) {
-    return str.toUppercase();
+    return str.toUpperCase();
 }
 
 function whisper(str) {
