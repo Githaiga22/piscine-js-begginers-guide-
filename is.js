@@ -1,5 +1,4 @@
-
-const is = {
+const check = {
     num: (value) => typeof value === 'number' && !isNaN(value),
     nan: (value) => typeof value === 'number' && isNaN(value),
     str: (value) => typeof value === 'string',
@@ -13,17 +12,17 @@ const is = {
     falsy: (value) => !value,
 };
 
-
-console.log(is.num(5));          
-console.log(is.num('ciao'));     
-console.log(is.nan(NaN));        
-console.log(is.str('hello'));    
-console.log(is.bool(true));      
-console.log(is.undef(undefined));
-console.log(is.def(null));       
-console.log(is.arr([1, 2, 3]));  
-console.log(is.obj({}));         
-console.log(is.obj(null));       
-console.log(is.fun(() => {}));   
-console.log(is.truthy(1));       
-console.log(is.falsy(0));        
+// Usage examples
+console.log(check.num(5));          // true
+console.log(check.num('ciao'));     // false
+console.log(check.nan(NaN));        // true
+console.log(check.str('hello'));    // true
+console.log(check.bool(true));      // true
+console.log(check.undef(undefined));// true
+console.log(check.def(null));       // true
+console.log(check.arr([1, 2, 3]));  // true
+console.log(check.obj({}));         // true
+console.log(check.obj(null));       // false
+console.log(check.fun(() => {}));   // true
+console.log(check.truthy(1));       // true
+console.log(check.falsy(0));        // true
