@@ -1,6 +1,6 @@
 const check = {
     num: (value) => typeof value === 'number' && !isNaN(value),
-    nan: (value) => typeof value === 'number' && isNaN(value),
+    nan: (value) => typeof value === value !== value ? true : false,
     str: (value) => typeof value === 'string',
     bool: (value) => typeof value === 'boolean',
     undef: (value) => typeof value === 'undefined',
