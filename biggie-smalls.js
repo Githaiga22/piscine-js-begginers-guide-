@@ -3,7 +3,7 @@
     smalls with the smallest possible number value.
     biggie with the greatest possible number value.
 */
-var smalls = Number.MIN_VALUE;
+var smalls = -Infinity;
 var biggie = Infinity;
 
  console.log(smalls)
