@@ -5,7 +5,7 @@ is.num = function(value) {
 };
 
 is.nan = function(value) {
-  return isNaN(value);
+  return Number.isNaN(value);
 };
 
 is.str = function(value) {
