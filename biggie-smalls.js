@@ -4,7 +4,7 @@
     biggie with the greatest possible number value.
 */
 var smalls = Number.MIN_VALUE;
-var biggie = Number.MAX_VALUE;
+var biggie = Infinity;
 
-// console.log(smalls)
-// console.log(biggie)
+ console.log(smalls)
+ console.log(biggie)
