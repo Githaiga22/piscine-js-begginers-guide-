@@ -17,10 +17,10 @@ function sameSign(a, b) {
  if (a < 0 && b < 0) {
     return true;
  }
- if (a === 0 || b === 0 ){
-return false;
+ if (a === 0 && b === 0 ){
+return true;
  } else {
     return false;
  }
 }
-console.log(sameSign(0, 231))
+console.log(sameSign(0, 234))
