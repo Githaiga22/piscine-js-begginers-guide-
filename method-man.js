@@ -3,12 +3,18 @@ function words(str) {
 }
 
 function sentence(arr) {
+    if (!Array.isArray(arr)) {
+        throw new TypeError('Argument must be an array');
+    }
     return arr.join(' ');
 }
+
+console.log(sentence(words("Hello World"))); 
 
 function yell(str) {
     return str.toUpperCase();
 }
+console.log(yell("Hello World"));
 
 function whisper(str) {
     return `*${str.toLowerCase()}*`;
@@ -16,5 +22,7 @@ function whisper(str) {
 console.log(whisper("Hello World"));
 
 function capitalize(str) {
-    return str[0].t0UpperCase() + str.slice(1).toLowerCase();
+    if (str.length === 0) return str; 
+    return str[0].toUpperCase() + str.slice(1).toLowerCase(); 
 }
+console.log(capitalize("hello world")); 
