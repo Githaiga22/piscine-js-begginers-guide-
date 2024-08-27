@@ -11,6 +11,16 @@ function sign(a) {
 console.log(sign(8))
 
 function sameSign(a, b) {
-    return (a >= 0 && b >= 0) || (a < 0 && b < 0);
+ if (a > 0 && b > 0) {
+    return true;
+ }
+ if (a < 0 && b < 0) {
+    return true;
+ }
+ if (a === 0 || b === 0 ){
+return false;
+ } else {
+    return false;
+ }
 }
-console.log(sameSign(-8, -9))
+console.log(sameSign(0, 231))
