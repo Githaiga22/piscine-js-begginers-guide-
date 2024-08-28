@@ -15,7 +15,7 @@ function arrToSet(arr) {
     return new Set(arr);
 }
 
-function arrToString(arr) {
+function arrToStr(arr) {
     return arr.join('');
 }
 
@@ -23,11 +23,11 @@ function setToArr(set) {
     return Array.from(set);
 }
 
-function setToString(set) {
+function setToStr(set) {
     return setToArr(set).join('');
 }
 
-function strToArray(str) {
+function strToArr(str) {
     return Array.from(str);
 }
 
@@ -77,10 +77,10 @@ function superTypeOf(value) {
 
 // Test cases
 console.log(arrToSet(arr)); // -> Set { 1, 2, 3 }
-console.log(arrToString(arr)); // -> '1213'
+console.log(arrToStr(arr)); // -> '1213'
 console.log(setToArr(set)); // -> [1, 2, 3]
-console.log(setToString(set)); // -> '123'
-console.log(strToArray(str)); // -> ['h', 'e', 'l', 'l', 'o']
+console.log(setToStr(set)); // -> '123'
+console.log(strToArr(str)); // -> ['h', 'e', 'l', 'l', 'o']
 console.log(strToSet(str)); // -> Set { 'h', 'e', 'l', 'o' }
 console.log(mapToObj(map)); // -> { a: 1, b: 2, '3': 'c', '4': 'd' }
 console.log(objToArr(obj)); // -> [45, 75, 24]
