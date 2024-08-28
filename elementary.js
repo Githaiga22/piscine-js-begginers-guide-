@@ -44,7 +44,11 @@ function divide(a, b) {
 }
 
 function modulo(a, b) {
-    return a % b
+    let remainder = a;
+    while (remainder >= b) {
+        remainder -= b;
+        }
+        return remainder;
 }
 console.log(multiply(-20,10))
 console.log(divide(15,4))
