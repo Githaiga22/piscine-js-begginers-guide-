@@ -9,47 +9,31 @@ if (b < 0) {
 }
 } 
 function divide(a, b) {
-    if (b === 0) throw new Error("Division by zero is not allowed!");
-
-    let count = 0;
-    let absA = Math.abs(a);
-    let absB = Math.abs(b);
-    let isNegative = (a < 0) !== (b < 0); // Determine the sign of the result
-
-    // Subtract the divisor from the dividend until the dividend is less than the divisor
-    while (absA >= absB) {
-        absA -= absB;
-        count++;
+    if (b === 0) {
+        throw new Error("Division by zero is not allowed.");
     }
 
-    // Calculate the fractional part
-    let fractionalPart = 0;
-    let numerator = absA;
-    let denominator = absB;
+    let quotient = 0;
+    let positiveA = Math.abs(a);
+    let positiveB = Math.abs(b);
 
-    for (let i = 0; i < 10 && numerator !== 0; i++) {
-        numerator *= 10;
-        let digit = 0;
-
-        while (numerator >= denominator) {
-            numerator -= denominator;
-            digit++;
-        }
-
-        fractionalPart += digit * Math.pow(10, -(i + 1));
+    while (positiveA >= positiveB) {
+        positiveA -= positiveB;
+        quotient++;
     }
 
-    let result = count + fractionalPart;
-    return isNegative ? -result : result;
+    // Determine the sign of the quotient
+    return (a < 0) ^ (b < 0) ? -quotient : quotient;
 }
-
 function modulo(a, b) {
-    let remainder = a;
-    while (remainder >= b) {
-        remainder -= b;
-        }
-        return remainder;
+    if (b === 0) {
+        throw new Error("Division by zero is not allowed.");
+    }
+
+    let quotient = divide(a, b);
+    return a - multiply(quotient, b);
 }
+
 console.log(multiply(-20,10))
 console.log(divide(15,4))
 console.log(modulo(20,10))
