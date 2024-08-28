@@ -9,21 +9,35 @@ if (b < 0) {
 }
 } 
 function divide(a, b) {
+    if (b === 0) throw new Error("Division by zero is not allowed!");
+
     let count = 0;
-    let sum = Math.abs(b);  // Use absolute value to handle negative numbers
-    let isNegative = (a < 0) !== (b < 0);  // Determine if the result should be negative
+    let absA = Math.abs(a);
+    let absB = Math.abs(b);
+    let isNegative = (a < 0) !== (b < 0); // Determine the sign of the result
 
-    a = Math.abs(a);
-    b = Math.abs(b);
-
-    while (sum <= a) {
-        sum += b;
+    // Subtract the divisor from the dividend until the dividend is less than the divisor
+    while (absA >= absB) {
+        absA -= absB;
         count++;
     }
 
     // Calculate the fractional part
-    let remainder = a - (sum - b);
-    let fractionalPart = remainder / b;
+    let fractionalPart = 0;
+    let numerator = absA;
+    let denominator = absB;
+
+    for (let i = 0; i < 10 && numerator !== 0; i++) {
+        numerator *= 10;
+        let digit = 0;
+
+        while (numerator >= denominator) {
+            numerator -= denominator;
+            digit++;
+        }
+
+        fractionalPart += digit * Math.pow(10, -(i + 1));
+    }
 
     let result = count + fractionalPart;
     return isNegative ? -result : result;
