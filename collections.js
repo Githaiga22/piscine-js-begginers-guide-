@@ -72,7 +72,11 @@ function superTypeOf(value) {
     if (Array.isArray(value)) return 'Array';
     if (value instanceof Map) return 'Map';
     if (value instanceof Set) return 'Set';
-    return typeof value.charAt === 'function' ? 'String' : typeof value;
+    if (typeof value === 'object') return 'Object'; // Capitalize 'Object'
+    if (typeof value === 'string') return 'String'; // Capitalize 'String'
+    if (typeof value === 'number') return 'Number'; // Capitalize 'Number'
+    if (typeof value === 'function') return 'Function'; // Capitalize 'Function'
+    return typeof value; // For other types, return as is
 }
 
 // Test cases
