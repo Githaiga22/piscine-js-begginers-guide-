@@ -47,7 +47,7 @@ function keepFirstLast(str) {
     if (typeof str !== 'string') {
         throw new TypeError('argument must be a string');
     }
-    if (str.length <= 2) {
+    if (str.length <= 3) {
         return str;
     }
     return (keepFirst(str) + keepLast(str));
