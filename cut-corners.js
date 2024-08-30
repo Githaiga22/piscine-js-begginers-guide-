@@ -1,5 +1,5 @@
 function  trunc(num) {
-    return num - (num % 1);
+    return num >= 0 ? Math.floor(num) : Math.ceil(num);
 }
 console.log(trunc(-3.1))
 
