@@ -3,22 +3,24 @@ function split(string, separator) {
     let currentChunk = '';
 
     for (let i = 0; i < string.length; i++) {
-        if (string.slice(i, i + separator.length) === separator) {
-            result.push(currentChunk);
-            currentChunk = '';
-            i += separator.length - 1;
+        // Check if the current slice matches the separator
+        if (separator === '' || string.slice(i, i + separator.length) !== separator) {
+            currentChunk += string[i]; // Accumulate the character
         } else {
-            currentChunk += string[i];
+            result.push(currentChunk); // Push the accumulated chunk to the result array
+            currentChunk = ''; // Reset the chunk
+            i += separator.length - 1; // Skip the length of the separator
         }
     }
+    result.push(currentChunk); // Push the last chunk
 
-    result.push(currentChunk);
     return result;
 }
 
-
-console.log(split('hello world', ' '));  
-console.log(split('a,b,c', ','));       
+// Example usage:
+console.log(split('hello world', ' '));  // ["hello", "world"]
+console.log(split('a,b,c', ','));        // ["a", "b", "c"]
+console.log(split('one,two,three', ',')) // ["one", "two", "three"]
 
 function join(array, separator = '') {
     let result = '';
@@ -26,13 +28,14 @@ function join(array, separator = '') {
     for (let i = 0; i < array.length; i++) {
         result += array[i];
         if (i < array.length - 1) {
-            result += separator;
+            result += separator; // Add the separator between elements
         }
     }
 
     return result;
 }
 
-
-console.log(join(['hello', 'world'], ' '));
-console.log(join(['a', 'b', 'c'], ','));    
+// Example usage:
+console.log(join(['hello', 'world'], ' ')); // "hello world"
+console.log(join(['a', 'b', 'c'], ','));    // "a,b,c"
+console.log(join(['one', 'two', 'three'], ',')) // "one,two,three"
