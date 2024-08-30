@@ -1,26 +1,33 @@
 function split(string, separator) {
     const result = [];
-    let currentChunk = '';
-
-    for (let i = 0; i < string.length; i++) {
-        // Check if the current slice matches the separator
-        if (separator === '' || string.slice(i, i + separator.length) !== separator) {
-            currentChunk += string[i]; // Accumulate the character
-        } else {
-            result.push(currentChunk); // Push the accumulated chunk to the result array
-            currentChunk = ''; // Reset the chunk
-            i += separator.length - 1; // Skip the length of the separator
+    
+    if (separator === '') {
+        // When the separator is an empty string, split the string into individual characters
+        for (let i = 0; i < string.length; i++) {
+            result.push(string[i]);
         }
+    } else {
+        let currentChunk = '';
+
+        for (let i = 0; i < string.length; i++) {
+            if (string.slice(i, i + separator.length) === separator) {
+                result.push(currentChunk);
+                currentChunk = '';
+                i += separator.length - 1;
+            } else {
+                currentChunk += string[i];
+            }
+        }
+        result.push(currentChunk); // Push the last chunk
     }
-    result.push(currentChunk); // Push the last chunk
 
     return result;
 }
 
 // Example usage:
+console.log(split('Riad', ''));        // ["R", "i", "a", "d"]
 console.log(split('hello world', ' '));  // ["hello", "world"]
 console.log(split('a,b,c', ','));        // ["a", "b", "c"]
-console.log(split('one,two,three', ',')) // ["one", "two", "three"]
 
 function join(array, separator = '') {
     let result = '';
