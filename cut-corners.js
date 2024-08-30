@@ -1,59 +1,90 @@
-function multiply(a, b) {
-    if (b === 0) return 0;
-    if (b > 0) return a + multiply(a, b - 1);
-    if (b < 0) return -multiply(a, -b);
+var multiply = (a, b) => {
+    return a * b;
 }
 
-function divide(a, b) {
-    if (b === 0) {
-        throw new Error("Division by zero is not allowed.");
+var modulo = (a, b) => {
+
+    let negativeResult = (a < 0 && b > 0) || (a<0&&b<0) ;
+
+    a=  Math.abs(a);
+    b=Math.abs(b)
+    var first = a;   
+    var counter = 0;
+
+    if (b == 0){
+        return NaN
+    }
+    if (a == 0){
+        return NaN
+    }
+    
+    while (a >= b) {
+        a -= b
+        counter++;
     }
 
-    let quotient = 0;
-    let positiveA = Math.abs(a);
-    let positiveB = Math.abs(b);
+    var result =first - multiply(b, counter);
+      return negativeResult ? -result:result
+}
 
-    while (positiveA >= positiveB) {
-        positiveA -= positiveB;
-        quotient++;
+
+
+var round=(item)=>{
+               if(item==0){
+                return 0
+               }
+
+    let number=item-modulo(item,1)
+    if (Math.abs(modulo(item,1))>=0.5){
+        return  number < 0 ? number-1:number+1;
     }
 
-    // Determine the sign of the quotient
-    return (a < 0) ^ (b < 0) ? -quotient : quotient;
+    return number 
 }
 
-function modulo(a, b) {
-    if (b === 0) {
-        throw new Error("Division by zero is not allowed.");
+const ceil = (item) => {
+    if (item === 0) {
+        return 0;
     }
 
-    let quotient = divide(a, b);
-    return a - multiply(quotient, b);
+    let result = 0;
+
+    if (item > 0xfffffffff) {
+        item -= 0xfffffffff;
+        result += 0xfffffffff;
+    }
+
+    let fractionalPart = modulo(item,1); 
+    let number = item - fractionalPart; 
+
+    return fractionalPart > 0 ? result + number + 1 : result + number;
 }
 
-function trunc(num) {
-    // Use multiply and divide to truncate the number
-    return num >= 0 ? divide(num, 1) : -divide(-num, 1);
+
+
+var floor=(item)=>{
+    if(item==0){
+        return 0
+       }
+
+let number=item-modulo(item,1)
+
+return number<0?number-1:number
 }
 
-function round(num) {
-    const intPart = trunc(num);
-    const fracPart = num - intPart;
-    return fracPart >= 0.5 ? intPart + 1 : intPart; // Round up or down based on the fractional part
+
+var trunc=(item)=>{
+
+    if(item==0){
+        return 0
+       }
+let result=0;
+
+    if (item > 0xfffffffff) {
+        item -= 0xfffffffff;
+        result += 0xfffffffff;
+    }
+
+    return (item-modulo(item,1))+result
 }
 
-function ceil(num) {
-    const intPart = trunc(num);
-    return num > intPart ? intPart + 1 : intPart; // Increment if num is greater than intPart
-}
-
-function floor(num) {
-    const intPart = trunc(num);
-    return num < intPart ? intPart - 1 : intPart; // Decrement if num is less than intPart
-}
-
-// Testing the functions
-console.log(trunc(3.7)); // Output: 3
-console.log(round(3.7)); // Output: 4
-console.log(ceil(3.1));  // Output: 4
-console.log(floor(3.1)); // Output: 3
