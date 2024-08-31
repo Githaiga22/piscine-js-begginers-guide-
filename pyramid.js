@@ -4,7 +4,7 @@ let result = '';
     const numChars = 2 * i - 1;
     const padding = height - i;
 
-    const row = ' '.repeat(padding) + char.repeat(numChars) + ' '.repeat(padding);
+    const row = ' '.repeat(padding) + char.repeat(numChars);
     result += row;
 
     if(i !== height) {
@@ -13,5 +13,5 @@ let result = '';
 }
 return result;
 }
-console.log(pyramid('^', 5))
+console.log(pyramid('a', 5))
 console.log(pyramid('*', 5))
