@@ -1,18 +1,23 @@
 function findIP(input) {
     // Regular expression to match valid IP addresses with optional ports
-    const ipRegex = /\b((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])\.){3}(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])(?::([0-9]{1,5}))?\b/g;
-    let matches;
+    const ipRegex = /\b(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])\.){3}(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(?::(?:[1-9]\d{0,3}|[1-5]\d{4}|6(?:[0-4]\d{3}|5(?:[0-4]\d{2}|5(?:[0-2]\d|3[0-5]))))?)?\b/g;
+
     const result = [];
-    
-    while ((matches = ipRegex.exec(input)) !== null) {
-        const ipAddress = matches[0]; // Full IP address including port if present
-        const port = matches[5]; // Port capturing group
+    let match;
+
+    while ((match = ipRegex.exec(input)) !== null) {
+        let [ip, port] = match[0].split(':');
         
-        // Check if the port is valid or undefined
-        if (port === undefined || (parseInt(port) >= 0 && parseInt(port) <= 65535)) {
-            result.push(ipAddress);
+        // Check for leading zeros
+        if (ip.split('.').some(octet => octet.length > 1 && octet.startsWith('0'))) {
+            continue;
+        }
+
+        // If port is undefined or valid, add to result
+        if (!port || (parseInt(port) >= 0 && parseInt(port) <= 65535)) {
+            result.push(match[0]);
         }
     }
-    
+
     return result;
 }
