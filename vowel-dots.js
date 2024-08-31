@@ -1,6 +1,6 @@
+const vowels = /[aeiouAEIOU]/g;
+
 function vowelDots(str) {
-    let vowels = /[aeiouAEIOU]/g;
-    let result = str.replace(vowels, "$&.");
-  return result;
+  return str.replace(vowels, "$&.");;
 }
 console.log(vowelDots("Allan")); 
