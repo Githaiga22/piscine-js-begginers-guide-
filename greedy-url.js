@@ -1,6 +1,6 @@
 // getURL: returns all URLs present in the dataSet
 function getURL(params) {
-    let regex = /(https?:\/\/[\w\.\S]+)/g;
+    let regex = /(https?:\/\/[\w\/\S]+)/g;
     let x = params.match(regex);
     let y = [];
     y = x;
@@ -9,7 +9,7 @@ function getURL(params) {
 
 // greedyQuery: returns URLs from the dataSet, with at least 3 query parameters.
 function greedyQuery(dataSet) {
-    const greedyQueryRegex = /https?:\/\/[^\s?]+\?(\?\S+)?/g;
+    const greedyQueryRegex = /https?:\/\/[^\s?]+(\?\S+)?/g;
     // Find all matches and return them as an array
     return (dataSet.match(greedyQueryRegex) || []).filter((url) => {
         // Count the number of query parameters
