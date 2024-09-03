@@ -8,17 +8,17 @@ function isValid(date) {
 console.log(isValid(new Date('2023-08-28'))); 
 console.log(isValid(new Date('invalid date'))); 
 function isAfter(date1, date2) {
+    // If either argument is not provided or not a valid type, return false
+    if (date1 == null || date2 == null || (typeof date1 !== 'number' && !(date1 instanceof Date)) || (typeof date2 !== 'number' && !(date2 instanceof Date))) {
+        return false;
+    }
+
     // Convert timestamps (numbers) to Date objects if necessary
     if (typeof date1 === 'number') {
         date1 = new Date(date1);
     }
     if (typeof date2 === 'number') {
         date2 = new Date(date2);
-    }
-    
-    // Ensure both arguments are valid Date objects
-    if (!(date1 instanceof Date) || !(date2 instanceof Date)) {
-        throw new TypeError('Arguments must be valid Date objects or timestamps');
     }
 
     // Return true if the first date is after the second date
