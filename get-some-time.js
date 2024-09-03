@@ -1,41 +1,31 @@
-function firstDayWeek(weekNumber, year) {
-    // Validate input
-    if (weekNumber < 1 || weekNumber > 53) {
-        throw new Error("Week number must be between 1 and 53.");
+function firstDayWeek(week, year) {
+    let time = new Date(year);
+    if (week == 1) {
+        time.setHours(24);
+        return formatDate(time);
     }
 
-    // Create a date object for January 1st of the specified year
-    const firstDayOfYear = new Date(year, 0, 1);
+    let dayPlus = week * 7 * 24;
+    time.setHours(dayPlus - 123);
 
-    // Calculate the first Thursday of the year
-    let firstThursday = new Date(firstDayOfYear);
-    firstThursday.setDate(firstDayOfYear.getDate() + (4 - (firstDayOfYear.getDay() || 7)));
-
-    // Calculate the first Monday of the week containing the first Thursday
-    let firstMonday = new Date(firstThursday);
-    firstMonday.setDate(firstThursday.getDate() - (firstThursday.getDay() - 1));
-
-    // If the first Monday is in the previous year, adjust it
-    if (firstMonday.getFullYear() < year) {
-        firstMonday.setFullYear(year);
-        firstMonday.setDate(1); // Reset to January 1st
+    for (let i = 0; i < 7; i++) {
+        if (getWeekDay(time) === 'Monday') {
+            return formatDate(time);
+        }
+        time.setHours(-24);
     }
 
-    // Calculate the first day of the specified week
-    const firstDayOfWeek = new Date(firstMonday);
-    firstDayOfWeek.setDate(firstMonday.getDate() + (weekNumber - 1) * 7);
-
-    // Format the date in dd-mm-yyyy
-    const day = String(firstDayOfWeek.getDate()).padStart(2, '0');
-    const month = String(firstDayOfWeek.getMonth() + 1).padStart(2, '0'); // Months are 0-indexed
-    const formattedDate = `${day}-${month}-${firstDayOfWeek.getFullYear()}`;
-
-    return formattedDate;
+    return time;
 }
 
-// Example usage:
-console.log(firstDayWeek(1, '2024')); // Outputs: "01-01-2024"
-console.log(firstDayWeek(2, '2024')); // Outputs: "08-01-2024"
-console.log(firstDayWeek(53, '2024')); // Outputs: "30-12-2024"
-console.log(firstDayWeek(1, '1000')); // Outputs: "01-01-1000"
-console.log(firstDayWeek(1, '1001')); // Outputs: "01-01-1001"
+function getWeekDay(date) {
+    const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+    return days[date.getDay() - 1];
+}
+
+function formatDate(date) {
+    let month = String(date.getMonth() + 1).padStart(2, '0');
+    let day = String(date.getDate() - 1).padStart(2, '0');
+    let year = String(date.getFullYear()).padStart(4, '0');
+    return `${day}-${month}-${year}`;
+}
