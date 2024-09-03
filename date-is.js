@@ -1,9 +1,9 @@
 function isValid(date) {
-    if (!(date instanceof Date)) {
-        return false;
+    if ( typeof date == 'number') {
+        date = new Date(date);
     }
  
-    return !isNaN(date.getTime());
+    return  date instanceof Date && !isNaN(date.getTime());
 }
 console.log(isValid(new Date('2023-08-28'))); 
 console.log(isValid(new Date('invalid date'))); 
