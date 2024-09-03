@@ -6,17 +6,14 @@ function firstDayWeek(weekNumber, year) {
 
     // Create a date object for January 1st of the specified year
     const firstDayOfYear = new Date(year, 0, 1);
-    
-    // Calculate the first Monday of the year
-    let firstMonday = new Date(firstDayOfYear);
-    while (firstMonday.getDay() !== 1) { // 1 represents Monday
-        firstMonday.setDate(firstMonday.getDate() + 1);
-    }
 
-    // If January 1st is a Monday, it should be considered as the first week
-    if (firstDayOfYear.getDay() === 0) { // If January 1st is a Sunday
-        firstMonday.setDate(firstMonday.getDate() - 7);
-    }
+    // Calculate the first Thursday of the year
+    let firstThursday = new Date(firstDayOfYear);
+    firstThursday.setDate(firstDayOfYear.getDate() + (4 - (firstDayOfYear.getDay() || 7)));
+
+    // Calculate the first Monday of the week containing the first Thursday
+    let firstMonday = new Date(firstThursday);
+    firstMonday.setDate(firstThursday.getDate() - (firstThursday.getDay() - 1));
 
     // Calculate the first day of the specified week
     const firstDayOfWeek = new Date(firstMonday);
@@ -37,7 +34,8 @@ function firstDayWeek(weekNumber, year) {
 }
 
 // Example usage:
-console.log(firstDayWeek(1, '1000')); // Outputs: "01-01-2024"
+console.log(firstDayWeek(1, '2024')); // Outputs: "01-01-2024"
 console.log(firstDayWeek(2, '2024')); // Outputs: "08-01-2024"
-console.log(firstDayWeek(53, '1000')); // Outputs: "30-12-2024"
+console.log(firstDayWeek(53, '2024')); // Outputs: "30-12-2024"
 console.log(firstDayWeek(1, '1000')); // Outputs: "01-01-1000"
+console.log(firstDayWeek(1, '1001')); // Outputs: "01-01-1001"
