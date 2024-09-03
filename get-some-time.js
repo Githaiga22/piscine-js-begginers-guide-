@@ -15,15 +15,15 @@ function firstDayWeek(weekNumber, year) {
     let firstMonday = new Date(firstThursday);
     firstMonday.setDate(firstThursday.getDate() - (firstThursday.getDay() - 1));
 
+    // If the first Monday is in the previous year, adjust it
+    if (firstMonday.getFullYear() < year) {
+        firstMonday.setFullYear(year);
+        firstMonday.setDate(1); // Reset to January 1st
+    }
+
     // Calculate the first day of the specified week
     const firstDayOfWeek = new Date(firstMonday);
     firstDayOfWeek.setDate(firstMonday.getDate() + (weekNumber - 1) * 7);
-
-    // If the calculated first day is in the previous year, adjust it
-    if (firstDayOfWeek.getFullYear() < year) {
-        firstDayOfWeek.setFullYear(year);
-        firstDayOfWeek.setDate(1); // Reset to January 1st
-    }
 
     // Format the date in dd-mm-yyyy
     const day = String(firstDayOfWeek.getDate()).padStart(2, '0');
