@@ -8,6 +8,6 @@ function oneLongWord(arr) {
 }
 console.log(oneLongWord(["Hello Monday", "world", "how", "are", "you"]))
 
-function noLongWord(array) {
+function noLongWords(array) {
     return array.every(word => typeof word !== 'string' && word.length < 7);
 }
