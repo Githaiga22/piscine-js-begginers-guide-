@@ -5,12 +5,10 @@ function map(arr, action) {
     }
     return res;
 }
-console.log(map([1, 2, 3], (x) => x * 2));
 
-function flatMap(arr, flat) {
+function flatMap(arr, action) {
     return arr.reduce(
-        (acc, current) => acc.concat(flat(current)),
+        (acc, val, i, arr) => acc.concat(action(val, i, arr)),
         []
-    )
+    );
 }
-console.log(flatMap([1, 2, 3], (x) => [x, x * 2]));
