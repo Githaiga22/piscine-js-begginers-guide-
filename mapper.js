@@ -1,13 +1,11 @@
-function customMap(arr, callback) {
-    const result = [];
-    //loop thru each element in the input array
+function map(arr, action) {
+    let res = [];
     for (let i = 0; i < arr.length; i++) {
-      const tarnsformedAlement  = callback(arr[i], i, arr);
-      result.push(tarnsformedAlement);
+        res.push(action(arr[i], i, arr));
     }
-    return result
+    return res;
 }
-console.log(customMap([1, 2, 3], (x) => x * 2));
+console.log(map([1, 2, 3], (x) => x * 2));
 
 function flatMap(arr, flat) {
     return arr.reduce(
