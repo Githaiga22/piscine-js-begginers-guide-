@@ -1,9 +1,9 @@
 function invert(obj) {
-    let obj2 = {}
-    let keys = Object.keys(obj)
-    keys.forEach(key => {
-        let value = obj[key]
-        obj2[val] = key
-    })
-    return obj2
+    const inverted = {};
+    for (let key in obj) {
+        if (obj.hasOwnProperty(key)) {
+            inverted[obj[key]] = key;
+        }
+    }
+    return inverted;
 }
