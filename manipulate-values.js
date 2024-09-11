@@ -1,24 +1,27 @@
 function filterValues(obj, callback) {
-    return Object.fromEntries(
-        Object.entries(obj).filter(([key, value]) => callback(value))
-    );
+    let res = {};
+    for (let key in obj) {
+        if (callback(obj[key])) {
+            res[key] = obj[key];
+        }
+    }
+    return res;
 }
-
-
-console.log(filterValues(nutritionDB.tomato, (nutrient) => nutrient <= 12));
 
 function mapValues(obj, callback) {
-    return Object.fromEntries(
-        Object.entries(obj).map(([key, value]) => [key, callback(value)])
-    );
+    let res = {};
+    for (let key in obj) {
+        res[key] = callback(obj[key]);
+    }
+    return res;
 }
 
-console.log(mapValues(nutritionDB.onion, (v) => v + 1));
-
-function reduceValues(obj, callback, initialValue) {
-    return Object.values(obj).reduce(callback, initialValue);
+function reduceValues(obj, callback, acc) {
+    if (acc === undefined) {
+        acc = 0;
+    }
+    for (let key in obj) {
+        acc = callback(acc, obj[key]);
+    }
+    return acc;
 }
-console.log(reduceValues(nutritionDB.garlic, (acc, cr) => acc + cr, 0));
-
-
-
