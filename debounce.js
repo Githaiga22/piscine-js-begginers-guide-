@@ -8,25 +8,26 @@ function debounce(fn, delay) {
         }, delay);
     };
 }
-
 function opDebounce(fn, delay, options = {}) {
     let timer = null;
-    let first = true;
+    let leadingCalled = false;
     const { leading = false } = options;
     
     return function (...args) {
-        if (first && leading) {
-            fn.apply(this, args);
-            first = false;
+        const context = this;
+
+        if (leading && !leadingCalled) {
+            fn.apply(context, args);
+            leadingCalled = true;
         }
-        
+
         if (timer) {
             clearTimeout(timer);
         }
-        
+
         timer = setTimeout(() => {
-            fn.apply(this, args);
-            first = true; // Reset for the next leading call
+            fn.apply(context, args);
+            leadingCalled = false; // Reset for the next leading call
         }, delay);
     };
 }
