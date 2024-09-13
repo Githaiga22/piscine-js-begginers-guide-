@@ -10,14 +10,14 @@ function debounce(fn, delay) {
 }
 function opDebounce(fn, delay, options = {}) {
     let timer = null;
-    const { leading = false } = options;
     let leadingCalled = false;
+    const { leading = false } = options;
 
     return function (...args) {
         const context = this;
 
-        // If leading edge is true and function has not been called yet
         if (leading && !leadingCalled) {
+            // Call immediately on the leading edge if `leading` is true
             fn.apply(context, args);
             leadingCalled = true;
         }
@@ -30,7 +30,7 @@ function opDebounce(fn, delay, options = {}) {
         // Set a new timer
         timer = setTimeout(() => {
             fn.apply(context, args);
-            leadingCalled = false; // Reset leadingCalled for future calls
+            leadingCalled = false; // Allow leading edge call in the future
         }, delay);
     };
 }
