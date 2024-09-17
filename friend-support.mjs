@@ -1,43 +1,33 @@
-import http from 'http';
-import fs from 'fs';
-import path from 'path';
+import { createServer } from 'node:http';
+import { readFile } from 'node:fs/promises';
 
-// Define the port to listen on
-const PORT = 5000;
+const PORT = 5000
+const server = createServer(async (request, response) => {
+    const url = new URL(request.url, `http://${request.headers.host}`);
+    const guestName = url.pathname.slice(1);
+    response.setHeader('Content-Type', 'application/json');
 
-// Create an HTTP server
-const server = http.createServer((req, res) => {
-  console.log(`Received request: ${req.method} ${req.url}`);
-
-  if (req.method !== 'GET') {
-    res.writeHead(405, {'Content-Type': 'application/json'});
-    res.end(JSON.stringify({ error: 'Method not allowed' }));
-    return;
-  }
-
-  const guestName = decodeURIComponent(req.url.slice(1));
-  const filePath = path.join(__dirname, 'guests', `${guestName}.json`);
-
-  fs.readFile(filePath, 'utf8', (err, data) => {
-    console.log(`Reading file: ${filePath}`);
-    if (err) {
-      console.log(`Error reading file: ${err.message}`);
-      if (err.code === 'ENOENT') {
-        res.writeHead(404, {'Content-Type': 'application/json'});
-        res.end(JSON.stringify({ error: 'guest not found' }));
-      } else {
-        res.writeHead(500, {'Content-Type': 'application/json'});
-        res.end(JSON.stringify({ error: 'server failed' }));
-      }
-    } else {
-      console.log(`File content: ${data}`);
-      res.writeHead(200, {'Content-Type': 'application/json'});
-      res.end(data);
+    try {
+        if (guestName) {
+            const content = await readFile(`guests/${guestName}.json`, 'utf8');
+            const jsonContent = JSON.parse(content);
+            response.statusCode = 200;
+            response.end(JSON.stringify(jsonContent));
+        } else {
+            response.statusCode = 404;
+            response.end(JSON.stringify({ error: "guest not found" }));
+        }
+    } catch (error) {
+        if (error.code === 'ENOENT') {
+            response.statusCode = 404;
+            response.end(JSON.stringify({ error: "guest not found" }));
+        } else {
+            response.statusCode = 500;
+            response.end(JSON.stringify({ error: "server failed" }));
+        }
     }
-  });
 });
 
-// Start the server and print a message indicating the port
 server.listen(PORT, () => {
-  console.log(`Server is listening on port ${PORT}`);
+    console.log('Server listening on port localhost:5000!');
 });
