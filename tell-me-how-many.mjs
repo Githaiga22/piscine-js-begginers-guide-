@@ -20,3 +20,6 @@ async function countDirectoryEntries(directory) {
 const directory = process.argv[2] ? resolve(process.argv[2]) : process.cwd()
 
 countDirectoryEntries(directory)
+
+//comand for checking path
+//  pwd
