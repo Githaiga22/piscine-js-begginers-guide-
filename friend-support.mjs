@@ -7,34 +7,30 @@ const PORT = 5000;
 
 // Create an HTTP server
 const server = http.createServer((req, res) => {
-  // Log the incoming request method and URL
   console.log(`Received request: ${req.method} ${req.url}`);
 
-  // Only handle GET requests
   if (req.method !== 'GET') {
     res.writeHead(405, {'Content-Type': 'application/json'});
     res.end(JSON.stringify({ error: 'Method not allowed' }));
     return;
   }
 
-  // Extract the guest name from the URL
   const guestName = decodeURIComponent(req.url.slice(1));
   const filePath = path.join(__dirname, 'guests', `${guestName}.json`);
 
-  // Attempt to read the requested file
   fs.readFile(filePath, 'utf8', (err, data) => {
+    console.log(`Reading file: ${filePath}`);
     if (err) {
+      console.log(`Error reading file: ${err.message}`);
       if (err.code === 'ENOENT') {
-        // File not found
         res.writeHead(404, {'Content-Type': 'application/json'});
         res.end(JSON.stringify({ error: 'guest not found' }));
       } else {
-        // Server error
         res.writeHead(500, {'Content-Type': 'application/json'});
         res.end(JSON.stringify({ error: 'server failed' }));
       }
     } else {
-      // File found, respond with JSON content
+      console.log(`File content: ${data}`);
       res.writeHead(200, {'Content-Type': 'application/json'});
       res.end(data);
     }
