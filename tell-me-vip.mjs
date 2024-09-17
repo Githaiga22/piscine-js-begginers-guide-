@@ -11,11 +11,8 @@ async function getVip(inputPath) {
       const content = JSON.parse(await fs.readFile(filePath, 'utf8'))
 
       if (content.answer.toLowerCase() === 'yes') {
-        // Extract the base name of the file without extension
-        const baseName = path.basename(file, '.json')
-
-        // Assuming the base name is the guest's name, use it directly
-        guests.push(baseName)
+        const [lastName, firstName] = file.split('.')[0].split('_')
+        guests.push(`${firstName} ${lastName}`)
       }
     }
 
