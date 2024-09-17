@@ -9,7 +9,7 @@ async function countDirectoryEntries(directory) {
         //read directories contents
         const entries = await fs.readdir(directory)
         //count and log the nummber of entries
-        console.log('number of entries in the directory:', entries.length);
+        console.log(entries.length);
     } catch (err) {
         //handle errors eg if the directory does not exist
         console.error('Error reading directory:', err.message)
