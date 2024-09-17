@@ -14,5 +14,5 @@ function abs(num) {
     return num < 0 ? -num : num ;
 }
 console.log(abs(5));  
-console.log(isPositive(3)); 
+console.log(isPositive(0)); 
 console.log(abs(-20.909090)); 

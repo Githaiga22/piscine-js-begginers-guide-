@@ -27,4 +27,4 @@ console.log(slice([1, 2, 3, 4, 5], -3, -1)); // -> [3, 4]
 
 // Example usage with strings
 console.log(slice("hello world", 0, 5)); // -> "hello"
-console.log(slice("hello world", -5));
+console.log(slice("hello world", -6));
