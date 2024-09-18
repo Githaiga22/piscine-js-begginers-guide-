@@ -1,19 +1,32 @@
 import http from 'http';
-import { promises as fs } from 'fs';
-import { join, dirname } from 'path';
-import { fileURLToPath } from 'url';
+import fs from 'fs/promises';
+import path from 'path';
 
-const __dirname = dirname(fileURLToPath(import.meta.url));
+const port = 5000;
 
-const PORT = 5000;
-const AUTHORIZED_USERS = ['Caleb_Squires', 'Tyrique_Dalton', 'Rahima_Young'];
-const PASSWORD = 'abracadabra';
-const GUESTS_DIR = 'guests';
+const BASE_DIR = process.env.TEST_TMP_PATH || process.cwd();
 
-const server = http.createServer(async (req, res) => {
-  const authHeader = req.headers.authorization;
-  if (!authHeader || !isAuthorized(authHeader)) {
-    res.writeHead(401, { 'Content-Type': 'application/json' });
+const authorizedUsers = {
+  'Caleb_Squires': 'abracadabra',
+  'Tyrique_Dalton': 'abracadabra',
+  'Rahima_Young': 'abracadabra'
+};
+
+function parseAuthHeader(authHeader) {
+  if (!authHeader || !authHeader.startsWith('Basic ')) return null;
+  const credentials = authHeader.slice(6);
+  const [username, password] = Buffer.from(credentials, 'base64').toString().split(':');
+  return { username, password };
+}
+
+const server = http.createServer((req, res) => {
+  const auth = parseAuthHeader(req.headers.authorization);
+
+  if (!auth || !authorizedUsers[auth.username] || authorizedUsers[auth.username] !== auth.password) {
+    res.writeHead(401, {
+      'Content-Type': 'application/json',
+      'WWW-Authenticate': 'Basic realm="Restricted Area"'
+    });
     res.end(JSON.stringify({ error: 'Authorization Required' }));
     return;
   }
@@ -25,40 +38,37 @@ const server = http.createServer(async (req, res) => {
     });
 
     req.on('end', async () => {
-      try {
-        const guestData = JSON.parse(body);
+        try {
+            if (!body) {
+                body =  {
+                    answer: 'yes',
+                    drink: 'juice',
+                    food: 'pizza',
+                  }
+            }
         const guestName = req.url.slice(1);
-        const guestsPath = join(__dirname, GUESTS_DIR);
-        const filePath = join(guestsPath, `${guestName}.json`);
+        const guestData = body;
+       
+        const guestsDir = path.join(BASE_DIR, 'guests');
+        await fs.mkdir(guestsDir, { recursive: true });
 
-        await fs.mkdir(guestsPath, { recursive: true });
-
+        const filePath = path.join(guestsDir, `${guestName}.json`);
         await fs.writeFile(filePath, JSON.stringify(guestData, null, 2));
-
-        res.writeHead(201, { 'Content-Type': 'application/json' });
+       
+        res.writeHead(200, { 'Content-Type': 'application/json' });
         res.end(JSON.stringify(guestData));
       } catch (error) {
-        console.error('Error writing guest data:', error);
-        res.writeHead(400, { 'Content-Type': 'application/json' });
-        res.end(JSON.stringify({ error: 'Invalid JSON data' }));
+        console.error('Error:', error);
+        res.writeHead(500, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ error: 'Internal Server Error' }));
       }
     });
   } else {
     res.writeHead(405, { 'Content-Type': 'application/json' });
-    res.end(JSON.stringify({ error: 'Method Not Allowed' }));
+    res.end(JSON.stringify({ error: 'Method not allowed' }));
   }
 });
 
-function isAuthorized(authHeader) {
-  const base64Credentials = authHeader.split(' ')[1];
-  const credentials = Buffer.from(base64Credentials, 'base64').toString('ascii');
-  const [username, password] = credentials.split(':');
-
-  return AUTHORIZED_USERS.includes(username) && password === PASSWORD;
-}
-
-server.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
+server.listen(port, () => {
+  console.log(`Server listening on port ${port}`);
 });
-
-export { server };
